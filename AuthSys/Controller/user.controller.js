@@ -2,8 +2,8 @@
 
 const jwt = require("jsonwebtoken");
 //custom defined objects
-let User = require("../Models/user.models");
-let helper = require("../Helper");
+const User = require("../Models/user.models");
+const helper = require("../Helper");
 
 exports.createUser = function(req, res, next) {
   User.find({ userName: req.body.userName }, function(err, user) {
@@ -62,10 +62,11 @@ exports.loginUser = function(req, res) {
 };
 
 exports.editDetails = function(req, res) {
-  const { userName } = req.body;
+  const { address, contact } = req.body;
+
   User.findOneAndUpdate(
     { _id: req.user._id },
-    { $set: { userName: userName } },
+    { $set: { address: address, contact: contact } },
     { new: true },
     (err, doc) => {
       if (err) {

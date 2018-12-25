@@ -15,7 +15,7 @@ const fs = require("fs");
 //custom objects
 let port = process.env.PORT || 8000;
 
-let chironCore = require("./Chironcore");
+let AuthSys = require("./AuthSys");
 let config = require("./Config/database");
 //creating database connection
 mongoose.Promise = global.Promise;
@@ -34,7 +34,7 @@ app.use(cors());
 app.set("port", port);
 
 app.use(express.static(path.join(__dirname)));
-app.use("/api/chironx", chironCore.router);
+app.use("/api/authSys", AuthSys.router);
 
 app.use(function(err, req, res, next) {
   if (err.name === "UnauthorizedError") {
