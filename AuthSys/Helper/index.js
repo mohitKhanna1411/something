@@ -1,19 +1,25 @@
+"use strict";
+const bcrypt = require("bcrypt-nodejs");
+const multer = require("multer");
+const path = require("path");
 
-'use strict';
-const bcrypt = require('bcrypt-nodejs');
-const multer = require('multer');
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "ProfilePhotoDir");
+  },
+  filename: (req, file, cb) => {
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
+  }
+});
 
-
-//user defined libraries
-let Auth = require('../../Auth/auth.service');
-
-
+const upload = multer({ storage: storage });
 
 //only exports
-module.exports.generateHash = function (password) {
-    return bcrypt.hashSync(password);
+module.exports.generateHash = function(password) {
+  return bcrypt.hashSync(password);
 };
 
-module.exports.uploadZip = function () {
-    return upload
-};
+module.exports.upload = upload;

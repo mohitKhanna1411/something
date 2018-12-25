@@ -1,21 +1,9 @@
 const router = require("express").Router();
-const multer = require("multer");
-const path = require("path");
+const helper = require("../Helper");
 //user defined
 let userController = require("../Controller/user.controller");
 let Auth = require("../../Auth/auth.service");
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "ProfilePhotoDir");
-  },
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-    );
-  }
-});
-const upload = multer({ storage: storage });
+
 //router for user
 router.post("/authenticate/register", userController.createUser);
 router.post("/authenticate/login", userController.loginUser);
@@ -27,7 +15,7 @@ router.post(
 router.post(
   "/authenticate/uploadProfilePhoto",
   Auth.isAuthenticated(),
-  upload.single("profilePhoto"),
+  helper.upload.single("profilePhoto"),
   userController.uploadProfilePhoto
 );
 
