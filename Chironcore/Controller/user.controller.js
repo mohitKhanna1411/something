@@ -1,10 +1,6 @@
 "use strict";
 
 const jwt = require("jsonwebtoken");
-
-const request = require("request");
-const fs = require("fs");
-
 //custom defined objects
 let User = require("../Models/user.models");
 let helper = require("../Helper");
@@ -66,10 +62,9 @@ exports.loginUser = function(req, res) {
 };
 
 exports.editDetails = function(req, res) {
-  console.log("here");
   const { userName } = req.body;
   User.findOneAndUpdate(
-    { _id: req.user.id },
+    { _id: req.user._id },
     { $set: { userName: userName } },
     { new: true },
     (err, doc) => {
@@ -80,6 +75,25 @@ exports.editDetails = function(req, res) {
       }
       res.json({
         data: doc
+      });
+    }
+  );
+};
+
+exports.uploadProfilePhoto = function(req, res) {
+  User.findOneAndUpdate(
+    { _id: req.user._id },
+    { $set: { profilePhoto: "/ProfilePhotoDir/" + req.file.filename } },
+    { new: true },
+    (err, doc) => {
+      if (err) {
+        res.json({
+          err: err
+        });
+      }
+      res.json({
+        data: doc,
+        message: "DONE"
       });
     }
   );

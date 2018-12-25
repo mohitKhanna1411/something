@@ -11,7 +11,8 @@ const userSchema = new mongoose.Schema({
   hashedPassword: String,
   fullName: Boolean,
   address: String,
-  contact: String
+  contact: String,
+  profilePhoto: String
 });
 
 userSchema.methods.authenticate = function(password) {
