@@ -3,7 +3,7 @@ const expressJwt = require("express-jwt");
 const validateJwt = expressJwt({ secret: "secret" });
 const compose = require("composable-middleware");
 
-let User = require("../Chironcore/Models/user.models");
+let User = require("../AuthSys/Models/user.models");
 
 /**
  * Attaches the user object to the request if authenticated
@@ -20,10 +20,6 @@ function isAuthenticated() {
           req.headers.authorization = "Bearer " + req.query.access_token;
         }
 
-        //check what is applicable if set in cookies
-        // if(req.query && req.cookies['token']) {
-        //  req.headers.authorization = 'Bearer ' + req.cookies.token;
-        //}
         validateJwt(req, res, next);
       })
       // Attaching user to request

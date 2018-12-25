@@ -6,8 +6,8 @@ const request = require("request");
 const fs = require("fs");
 
 //custom defined objects
-let User = require("../Models/user.models");
-let helper = require("../Helper");
+const User = require("../Models/user.models");
+const helper = require("../Helper");
 
 exports.createUser = function(req, res, next) {
   User.find({ userName: req.body.userName }, function(err, user) {
@@ -67,10 +67,11 @@ exports.loginUser = function(req, res) {
 
 exports.editDetails = function(req, res) {
   console.log("here");
-  const { userName } = req.body;
+  const { address,contact } = req.body;
+
   User.findOneAndUpdate(
-    { _id: req.user.id },
-    { $set: { userName: userName } },
+    { _id: req.user._id },
+    { $set: { address: address,contact : contact } },
     { new: true },
     (err, doc) => {
       if (err) {
